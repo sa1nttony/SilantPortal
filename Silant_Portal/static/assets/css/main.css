@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'PT Astra Sans';
+    src: url('../fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf');
+  }
+
+body {
+    background-color: #EBE6D6;
+    border: 3px solid grey;
+    border-radius: 0.5em;
+    padding: 1rem;
+    font-family: 'PT Astra Sans';
+}
+
+header {
+    margin: 2em 2em 3em;
+    padding: 1em;
+    background-color: #163E6C;
+    border: 3px solid black;
+    border-radius: 0.5em;
+}
+
+header button {
+    font-size: 1em;
+    border-radius: 0.5em;
+    background-color: #EBE6D6;
+    cursor: pointer;
+}
+
+header button:hover{
+    color: #D20A11;
+}
+
+header span {
+    padding: 0.15em;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background-color: #EBE6D6;
+}
