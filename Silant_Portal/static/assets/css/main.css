@@ -4,6 +4,14 @@
   }
 
 body {
+    background-color: white;
+    display: flex;
+    flex-direction: column; /* Слои, подобные торту */
+    height: 100vh; /* Высота соответствует видимой области экрана */
+}
+
+.plane {
+    flex-grow: 1; /* Равномерное растяжение зазоров  */
     background-color: #EBE6D6;
     border: 3px solid grey;
     border-radius: 0.5em;
@@ -12,6 +20,7 @@ body {
 }
 
 header {
+    display: flex;
     margin: 2em 2em 3em;
     padding: 1em;
     background-color: #163E6C;
@@ -19,8 +28,23 @@ header {
     border-radius: 0.5em;
 }
 
+.grid-wrapper-header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 0.5fr 3fr;
+    grid-template-rows: 0.5fr auto;
+    grid-gap: 2vw;
+}
+
+.inner-grid-header {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 2vw;
+}
+
 header button {
-    font-size: 1em;
+    font-size: 1.5em;
     border-radius: 0.5em;
     background-color: #EBE6D6;
     cursor: pointer;
@@ -30,9 +54,34 @@ header button:hover{
     color: #D20A11;
 }
 
-header span {
+span {
     padding: 0.15em;
-    font-size: 1em;
+    font-size: 1.5em;
     border-radius: 0.5em;
     background-color: #EBE6D6;
+    text-align: center;
+}
+
+header div {
+    text-align: center;
+}
+
+.main-panel {
+    display: flex;
+    margin: 2em 2em 3em;
+    padding: 1em;
+    background-color: #163E6C;
+    border: 3px solid black;
+    border-radius: 0.5em;
+}
+
+footer {
+    display: grid;
+    margin: 2em 2em 3em;
+    padding: 1em;
+    background-color: #163E6C;
+    border: 3px solid black;
+    border-radius: 0.5em;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 2vw;
 }

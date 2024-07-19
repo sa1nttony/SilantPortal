@@ -9,13 +9,24 @@
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
-    <header>
-        <img src="{% static 'assets/icons/Logotype accent RGB 2.png' %}" alt="logo silant" width="100" height="100">
-        <span>+7-8352-20-12-03, telegram</span>
-        <button>Авторизация</button>
-        <span>Электронная сервисная книжка "Мой Силант"</span>
-
-    </header>
-    {% block body %}{% endblock body %}
+    <div class="plane">
+        <header class="grid-wrapper-header">
+            <div>
+                <img src="{% static 'assets/icons/Logotype accent RGB 2.png' %}" alt="logo silant" width="100" height="100">
+            </div>
+            <div class="inner-grid-header">
+                <span>+7-8352-20-12-03, telegram</span>
+                <button>Авторизация</button>
+                <span>Электронная сервисная книжка "Мой Силант"</span>
+            </div>
+        </header>
+        <div class="main-panel">
+            {% block body %}{% endblock body %}
+        </div>
+        <footer>
+            <span>+7-8352-20-12-03, telegram</span>
+            <span>Мой Силант 2022</span>
+        </footer>
+    </div>
 </body>
 </html>
