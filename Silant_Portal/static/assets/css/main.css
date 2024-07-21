@@ -6,12 +6,13 @@
 body {
     background-color: white;
     display: flex;
-    flex-direction: column; /* Слои, подобные торту */
-    height: 100vh; /* Высота соответствует видимой области экрана */
+    flex-direction: column;
+    height: 100vh;
 }
 
 .plane {
-    flex-grow: 1; /* Равномерное растяжение зазоров  */
+    display: flex;
+    flex-grow: 1; 
     background-color: #EBE6D6;
     border: 3px solid grey;
     border-radius: 0.5em;
@@ -67,12 +68,16 @@ header div {
 }
 
 .main-panel {
-    display: flex;
+    display: block;
     margin: 2em 2em 3em;
     padding: 1em;
     background-color: #163E6C;
     border: 3px solid black;
     border-radius: 0.5em;
+}
+
+.main-panel table {
+    background-color: aliceblue;
 }
 
 footer {
