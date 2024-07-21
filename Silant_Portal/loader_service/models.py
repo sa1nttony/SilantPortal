@@ -36,6 +36,7 @@ class Machine(models.Model):
     shipment_out_date = models.DateField()
     consignee = models.CharField(max_length=256)
     shipment_adress = models.CharField(max_length=256)
+    options = models.TextField(blank=True)
     client = models.ForeignKey(Profile, on_delete=models.CASCADE)
     service_company = models.ForeignKey("ServiceCompany", on_delete=models.CASCADE)
 
@@ -74,11 +75,17 @@ class EquipmentModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 #Модель двигателя
 class EngineModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 #Модель трансмиссии
@@ -86,11 +93,17 @@ class TransmissionModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 #Модель ведущего моста
 class DrivingAxleModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 #Модель ведущего моста
@@ -98,14 +111,24 @@ class ControlAxleModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 #Вид ТО
 class ServiceType(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 #Организация проводившая ТО
 class ServiceCompany(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title

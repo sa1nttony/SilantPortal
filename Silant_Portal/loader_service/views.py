@@ -6,11 +6,12 @@ from .filters import MachineFilter, TechServiceFilter, ReclamationFilter
 
 # Create your views here.
 
+
 #Machine----
 class MachineView(ListView):
     model = Machine
     ordering = 'shipment_out_date'
-    template_name = ''
+    template_name = 'home.html'
     context_object_name = 'machines'
     paginate_by = 5
 
@@ -23,6 +24,7 @@ class MachineView(ListView):
         context = super().get_context_data()
         context['filterset'] = self.filterset
         return context
+
 
 
 class MachineDetailView(DetailView):
