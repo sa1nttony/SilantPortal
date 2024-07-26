@@ -4,7 +4,7 @@
 {% load custom_tags %}
 
 {% block title %}
-Главная
+Рекламации
 {% endblock title %}
 
 {% block body %}
@@ -26,7 +26,7 @@
     </div>
 
 {% if user.role == 'MG' %}
-<span><a href="#">+ Добавить</a></span>
+<span><a href="create">+ Добавить</a></span>
 {% endif %}
 <!-- reclamations -->
         {% if reclamations %}

@@ -81,6 +81,8 @@ class ReclamationForm(forms.ModelForm):
             'service_company',
         ]
 
+        widgets = {'workoff_date': DateInput(), 'repair_date': DateInput()}
+
 
 class EquipmentModelForm(forms.ModelForm):
     class Meta:

@@ -95,7 +95,7 @@ class Reclamation(LifecycleModel):
     repair_method = models.CharField(max_length=256)
     used_recovery_kit = models.CharField(max_length=256)
     repair_date = models.DateField(max_length=256)
-    dead_time = models.IntegerField(null=True)
+    dead_time = models.IntegerField(null=True, blank=True)
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     service_company = models.ForeignKey('ServiceCompany', on_delete=models.CASCADE)
 

@@ -177,3 +177,10 @@ class ReclamationDetail(DetailView):
     context_object_name = 'reclamation_detail'
     template_name = 'reclamation_detail.html'
     queryset = Reclamation.objects.all()
+
+
+class ReclamationCreate(LoginRequiredMixin, CreateView):
+    model = Reclamation
+    form_class = ReclamationForm
+    template_name = 'reclamation_create.html'
+    success_url = reverse_lazy('reclamations')

@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Добавить рекламацию
+{% endblock title %}
+
+{% block body %}
+{% if user.role == "CL" and object.machine.client != user %}
+    <div>У вас нет доступа для просмотра данной страницы</div>
+{% elif user.role == "SR" and object.service_company.profile != user %}
+    <div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form method="post">
+            {% csrf_token %}
+            <div>Дата отказа{{ form.workoff_date }}</div>
+            <div>Наработка м/час{{ form.mileage }}</div>
+            <div>Узел отказа{{ form.workoff_node }}</div>
+            <div>Описание отказа{{ form.workoff_descriprion }}</div>
+            <div>Способ восстановления{{ form.repair_method }}</div>
+            <div>Используемые запасные части{{ form.used_recovery_kit }}</div>
+            <div>Дата восстановления{{ form.repair_date }}</div>
+            <div>Машина{{ form.machine }}</div>
+            <div>Сервисная компания{{ form.service_company }}</div>
+           <button type="submit">Сохранить</button>
+        </form>
+</div>
+{% endif %}
+{% endblock body %}
+
