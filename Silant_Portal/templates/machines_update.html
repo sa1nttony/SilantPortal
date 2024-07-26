@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Изменение машины
+{% endblock title %}
+
+{% block body %}
+{% if user.role != 'MG' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form method="post">
+            {% csrf_token %}
+            <div>Заводской номер{{ form.equipment_number }}</div>
+            <div>Модель техники{{ form.equipment_model }}</div>
+            <div>Модель двигателя{{ form.engine_model }}</div>
+            <div>Заводской номер двигателя{{ form.engine_number }}</div>
+            <div>Модель трансмиссии{{ form.transmission_model }}</div>
+            <div>Заводской номер трансмиссии{{ form.transmission_number }}</div>
+            <div>Модель ведущего моста{{ form.driving_axle_model }}</div>
+            <div>Заводской номер ведущего моста{{ form.driving_axle_number }}</div>
+            <div>Модель управляемого моста{{ form.control_axle_model }}</div>
+            <div>Заводской номер управляемого моста{{ form.control_axle_number }}</div>
+            <div>Договор поставки{{ form.shipment_contract }}</div>
+            <div>Дата отгрузки с завода{{ form.shipment_out_date}}</div>
+            <div>Адресс получателя{{ form.shipment_adress}}</div>
+            <div>Грузополучатель {{form.consignee}}</div>
+            <div>Комплектация (доп.опции){{ form.options }}</div>
+            <div>Клиент {{form.client}}</div>
+            <div>Сервисная компания{{ form.service_company }}</div>
+            <button type="submit">Сохранить</button>
+        </form>
+</div>
+{% endblock body %}
+

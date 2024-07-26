@@ -1,0 +1,77 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+{% load custom_filters %}
+
+{% block title %}
+Пользователи
+{% endblock title %}
+
+{% block body %}
+{% if user.role == 'CL' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form action="" method="get">
+        {{ filterset.form.non_field_errors }}
+        {{ filterset.form.name__icontains.errors }}
+        <span class="filter">Имя пользователя {{ filterset.form.username }}</span>
+        <button class="filter" type="submit">Найти</button>
+    </form>
+</div>
+{% if user.role == 'MG' %}
+<span><a href="/auth/add_user">+ Добавить нового</a></span>
+{% endif %}
+<!-- profiles -->   
+{% if profiles %}
+<div>
+    <div class="table">
+        <table border="1">
+            <tr>
+                <td>Имя пользователя</td>
+                <td>Описание</td>
+                <td>Эл.Почта</td>
+                <td>Роль</td>
+                {% if user.role == 'MG' %}
+                <td>Редактирование</td>
+                {% endif %}
+            </tr>
+            {% for profile in profiles %}
+            <tr>
+                <td>{{ profile.username }}</td>
+                <td>{{ profile.bio }}</td>
+                <td>{{ profile.email }}</td>
+                <td>{{ profile.role|roles_translator }}</td>
+                {% if user.role == 'MG' %}
+                <td><a href="{{ profile.pk }}/update">✏️</a><a href="{{ profile.pk }}/delete">❌</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+<!-- profiles -->   
+ <!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}

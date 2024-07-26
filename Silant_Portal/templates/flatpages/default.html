@@ -12,12 +12,24 @@
     <div class="plane">
         <header class="grid-wrapper-header">
             <div>
-                <img src="{% static 'assets/icons/Logotype accent RGB 2.png' %}" alt="logo silant" width="100" height="100">
+                <a href="/home/"><img src="{% static 'assets/icons/Logotype accent RGB 2.png' %}" alt="logo silant" width="100" height="100"></a>
             </div>
             <div class="inner-grid-header">
                 <span>+7-8352-20-12-03, telegram</span>
-                <button>Авторизация</button>
-                <span>Электронная сервисная книжка "Мой Силант"</span>
+                {% if user.is_authenticated %}
+                <span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="inform" type="submit">Выход</button>
+                    </form>
+                </span>
+                {% else %}
+                <span><a href="/auth/login/">Авторизация</a></span>
+                {% endif %}
+                <span>Электронная сервисная книжка "Мой Силант"{% if user.is_authenticated %} пользователя {{ user.username }}{% endif %}</span>
+                {% if user.is_authenticated and user.role != 'CL' %}
+                    <span><a href="/administration/">Администрирование</a></span>
+                {% endif %}
             </div>
         </header>
         <div class="main-panel">

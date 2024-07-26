@@ -1,0 +1,102 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+Главная
+{% endblock title %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+    <div>
+        <form action="" method="get">
+            {{ filterset.form.non_field_errors }}
+            {{ filterset.form.name__icontains.errors }}
+            <span class="filter">Узел отказа {{ filterset.form.workoff_node }}</span>
+            <span class="filter">Способ восстановления {{ filterset.form.repair_method }}</span>
+            <span class="filter">Сервисная компания {{ filterset.form.service_company }}</span>
+            <button class="filter" type="submit">Найти</button>
+        </form>
+    </div>
+    <div class="navigator">
+        <span ><a href="/home/">Общая информация</a></span>
+        <span><a href="/tech_services/">TO</a></span>
+        <span><a class="navigator-active" href="#">Рекламации</a></span>
+    </div>
+
+{% if user.role == 'MG' %}
+<span><a href="#">+ Добавить</a></span>
+{% endif %}
+<!-- reclamations -->
+        {% if reclamations %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Дата отказа</td>
+                        <td>Наработка м/час</td>
+                        <td>Узел отказа</td>
+                        <td>Описание отказа</td>
+                        <td>Способ восстановления</td>
+                        <td>Используемые запасные части</td>
+                        <td>Дата восстановления</td>
+                        <td>Время простоя</td>
+                        <td>Машина</td>
+                        <td>Сервисная компания</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    {% for reclamation in reclamations %}
+                    {% if user.role == 'CL' and reclamation.client != user %}
+                        <!-- continue -->
+                    {% elif user.role == 'SR' and reclamation.service_company.profile != user %}
+                        <!-- continue -->
+                    {% else %}
+                    <tr>
+                        <td><a href="{{ reclamation.pk }}">{{ reclamation.workoff_date|date:"d.m.Y" }}</a></td>
+                        <td>{{ reclamation.mileage }}</td>
+                        <td>{{ reclamation.workoff_node }}</td>
+                        <td>{{ reclamation.workoff_descriprion }}</td>
+                        <td>{{ reclamation.repair_method }}</td>
+                        <td>{{ reclamation.used_recovery_kit }}</td>
+                        <td>{{ reclamation.repair_date|date:"d.m.Y" }}</td>
+                        <td>{{ reclamation.dead_time }} дней</td>
+                        <td>{{ reclamation.machine }}</td>
+                        <td>{{ reclamation.service_company }}</td>
+                        {% if user.role == 'MG' %}
+                        <td><a href="{{ reclamation.pk }}/update">✏️</a><a href="{{ reclamation.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+<!-- reclamations -->   
+    {% endif %}
+
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}
+

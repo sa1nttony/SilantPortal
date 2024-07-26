@@ -1,0 +1,55 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}{{ machine_detail }}{% endblock title %}
+
+{% block body %}
+{% if user.role == "CL" and machine_detail.client != user %}
+    <div>У вас нет доступа для просмотра данной страницы</div>
+{% elif user.role == "SR" and machine_detail.service_company.profile != user %}
+    <div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <div class="table">
+        <table border="1">
+            <tr>
+                <td>Заводской номер</td>
+                <td>Модель техники</td>
+                <td>Заводской номер двигателя</td>
+                <td>Модель двигателя</td>
+                <td>Модель трансмиссии</td>
+                <td>Заводской номер трансмиссии</td>
+                <td>Модель ведущего моста</td>
+                <td>Заводской ведущего моста</td>
+                <td>Модель управляемого моста</td>
+                <td>Заводской номер управляемого моста</td>
+                <td>Договор поставки</td>
+                <td>Дата отгрузки с завода</td>
+                <td>Комплектация (доп.опции)</td>
+                <td>Сервисная компания</td>
+                {% if user.role == 'MG' %}
+                <td>Редактирование</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>{{ machine_detail.equipment_number }}</td>
+                <td>{{ machine_detail.equipment_model }}</td>
+                <td>{{ machine_detail.engine_model }}</td>
+                <td>{{ machine_detail.engine_number }}</td>
+                <td>{{ machine_detail.transmission_model }}</td>
+                <td>{{ machine_detail.transmission_number }}</td>
+                <td>{{ machine_detail.driving_axle_model }}</td>
+                <td>{{ machine_detail.driving_axle_number }}</td>
+                <td>{{ machine_detail.control_axle_model }}</td>
+                <td>{{ machine_detail.control_axle_number }}</td>
+                <td>{{ machine_detail.shipment_contract }}</td>
+                <td>{{ machine_detail.shipment_out_date|date:"d.m.Y" }}</td>
+                <td>{{ machine_detail.options }}</td>
+                <td>{{ machine_detail.service_company }}</td>
+                {% if user.role == 'MG' %}
+                <td><a href="{{ machine_detail.pk }}/update">✏️</a><a href="{{ machine_detail.pk }}/delete">❌</a></td>
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+{% endif %}    
+{% endblock body %}

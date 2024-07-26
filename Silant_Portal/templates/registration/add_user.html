@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Добавление пользователя
+{% endblock title %}
+
+{% block body %}
+{% if user.role != 'MG' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+    <form method="post">
+        {% csrf_token %}
+            <span>Имя пользователя {{ form.username }}</span>
+            <span>Эл.Почта {{ form.email }}</span>
+            <span>Пароль {{ form.password1 }}</span>
+            <span>Повторите пароль {{ form.password2 }}</span>
+            <span>Роль {{ form.role }}</span>
+            <div> Описание {{ form.bio }}</div>
+            <button type="submit">Создать</button>
+        </form>
+{% endif %}
+{% endblock body %}
+

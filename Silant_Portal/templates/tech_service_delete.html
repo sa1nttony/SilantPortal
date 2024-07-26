@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Удаление ТО
+{% endblock title %}
+
+{% block body %}
+{% if user.role == 'CL' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% elif user.role == "SR" and object.service_company.profile != user %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        Вы действительно хотите удалить ТО<strong> {{ object }}</strong>?
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+{% endblock body %}
+
+
+

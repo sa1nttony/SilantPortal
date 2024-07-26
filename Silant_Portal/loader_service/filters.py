@@ -1,12 +1,21 @@
 from django_filters import FilterSet, ChoiceFilter
 
-from .models import Machine, Reclamation, TechService
+from .models import Machine, Reclamation, TechService, Profile
+
+
+class ProfileFilter(FilterSet):
+    class Meta:
+        model = Profile
+        fields = {
+            'username': ['exact']
+        }
 
 
 class MachineFilter(FilterSet):
     class Meta:
         model = Machine
         fields = {
+            'equipment_number': ['exact'],
             'equipment_model': ['exact'],
             'engine_model': ['exact'],
             'transmission_model': ['exact'],
@@ -29,7 +38,7 @@ class ReclamationFilter(FilterSet):
     class Meta:
         model = Reclamation
         fields = {
-            'workoff_node': ['icontains'],
-            'repair_method': ['icontains'],
+            'workoff_node': ['exact'],
+            'repair_method': ['exact'],
             'service_company': ['exact'],
         }

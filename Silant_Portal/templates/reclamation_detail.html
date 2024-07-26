@@ -1,0 +1,75 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+{{reclamation_detail}}
+{% endblock title %}
+
+{% block body %}
+<!-- reclamations -->
+{% if user.role == 'CL' and reclamation_detail.client != user %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% elif user.role == 'SR' and reclamation_detail.service_company.profile != user %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Дата отказа</td>
+                        <td>Наработка м/час</td>
+                        <td>Узел отказа</td>
+                        <td>Описание отказа</td>
+                        <td>Способ восстановления</td>
+                        <td>Используемые запасные части</td>
+                        <td>Дата восстановления</td>
+                        <td>Время простоя</td>
+                        <td>Машина</td>
+                        <td>Сервисная компания</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>{{ reclamation_detail.workoff_date|date:"d.m.Y" }}</td>
+                        <td>{{ reclamation_detail.mileage }}</td>
+                        <td>{{ reclamation_detail.workoff_node }}</td>
+                        <td>{{ reclamation_detail.workoff_descriprion }}</td>
+                        <td>{{ reclamation_detail.repair_method }}</td>
+                        <td>{{ reclamation_detail.used_recovery_kit }}</td>
+                        <td>{{ reclamation_detail.repair_date|date:"d.m.Y" }}</td>
+                        <td>{{ reclamation_detail.dead_time }} дней</td>
+                        <td>{{ reclamation_detail.machine }}</td>
+                        <td>{{ reclamation_detail.service_company }}</td>
+                        {% if user.role == 'MG' %}
+                        <td><a href="{{ reclamation.pk }}/update">✏️</a><a href="{{ reclamation.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}
+

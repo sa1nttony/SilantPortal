@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Изменение ТО
+{% endblock title %}
+
+{% block body %}
+{% if user.role == 'CL' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% elif user.role == "SR" and object.service_company.profile != user %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form method="post">
+            {% csrf_token %}
+            <div>Вид ТО{{ form.service_type }}</div>
+            <div>Дата проведения ТО{{ form.service_date }}</div>
+            <div>Наработка м/час{{ form.mileage }}</div>
+            <div>№ заказ-наряда{{ form.order_number }}</div>
+            <div>Дата заказ-наряда{{ form.order_date }}</div>
+            <div>Машина{{ form.machine }}</div>
+            <div>Сервисная компания{{ form.service_company }}</div>
+           <button type="submit">Сохранить</button>
+        </form>
+</div>
+{% endblock body %}
+

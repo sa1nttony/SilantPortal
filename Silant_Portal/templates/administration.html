@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Администрирование
+{% endblock title %}
+
+{% block body %}
+    {% if user.role == "CL" %}
+        <div>У вас нет доступа для просмотра данной страницы</div>
+    {% else %}
+        <span><a href="profiles">Пользователи</a></span>
+        <span><a href="#">Модель техники</a></span>
+        <span><a href="#">Модель двигателя</a></span>
+        <span><a href="#">Модель трансмиссии</a></span>
+        <span><a href="#">Модель ведущего моста</a></span>
+        <span><a href="#">Модель управляемого моста</a></span>
+        <span><a href="#">Вид ТО</a></span>
+        <span><a href="#">Сервисная компания</a></span>
+    {% endif %}
+{% endblock body %}

@@ -1,0 +1,96 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+Техническое обслуживание
+{% endblock title %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+    <div>
+        <form action="" method="get">
+            {{ filterset.form.non_field_errors }}
+            {{ filterset.form.name__icontains.errors }}
+            <span class="filter">Вид ТО {{ filterset.form.service_type }}</span>
+            <span class="filter">Заводской номер машины {{ filterset.form.machine__equipment_model }}</span>
+            <span class="filter">Сервисная компания {{ filterset.form.service_company }}</span>
+            <button class="filter" type="submit">Найти</button>
+        </form>
+    </div>
+    <div class="navigator">
+        <span ><a  href="/home/">Общая информация</a></span>
+        <span><a class="navigator-active" href="#">TO</a></span>
+        <span><a href="/reclamations/">Рекламации</a></span>
+    </div>
+    {% if user.role == 'MG' %}
+    <span><a href="create">+ Добавить</a></span>
+    {% endif %}
+<!-- tech_services -->
+        {% if tech_services %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Вид ТО</td>
+                        <td>Дата проведения ТО</td>
+                        <td>Наработка м/час</td>
+                        <td>Номер заказ-наряда</td>
+                        <td>Дата заказ-наряда</td>
+                        <td>Машина</td>
+                        <td>Сервисная компания</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    {% for tech_service in tech_services %}
+                    {% if user.role == 'CL' and tech_service.machine.client != user %}
+                        <!-- continue -->
+                    {% elif user.role == 'SR' and tech_service.service_company.profile != user %}
+                        <!-- continue -->
+                    {% else %}
+                    <tr>
+                        <td>{{ tech_service.service_type }}</td>
+                        <td><a href="{{ tech_service.pk }}">{{ tech_service.service_date|date:"d.m.Y H:i" }}</a></td>
+                        <td>{{ tech_service.mileage }}</td>
+                        <td>{{ tech_service.order_number }}</td>
+                        <td>{{ tech_service.order_date|date:"d.m.Y" }}</td>
+                        <td>{{ tech_service.machine }}</td>
+                        <td>{{ tech_service.service_company }}</td>
+                        {% if user.role == 'MG' %}
+                        <td><a href="{{ tech_service.pk }}/update">✏️</a><a href="{{ tech_service.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+<!-- tech_services -->   
+    {% else %}
+        {{ 'Главная' }}
+    {% endif %}
+
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}

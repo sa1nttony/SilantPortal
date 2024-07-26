@@ -9,75 +9,154 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-    <span>
-        {{ filterset.form.non_field_errors }}
-        {{ filterset.form.name__icontains.errors }}
-        Модель {{ filterset.form.equipment_model }}
-        <input type="submit" value="Найти">
-    </span>
+    <div>
+        <form action="" method="get">
+            {{ filterset.form.non_field_errors }}
+            {{ filterset.form.name__icontains.errors }}
+            <span class="filter">Модель техники {{ filterset.form.equipment_model }}</span>
+            <span class="filter">Модель двигателя {{ filterset.form.engine_model }}</span>
+            <span class="filter">Модель трансмиссии {{ filterset.form.transmission_model }}</span>
+            <span class="filter">Модель ведущего моста {{ filterset.form.driving_axle_model }}</span>
+            <span class="filter">Модель управляемого моста {{ filterset.form.control_axle_model }}</span>
+            <button class="filter" type="submit">Найти</button>
+        </form>
+    </div>
+    <div class="navigator">
+        <span ><a class="navigator-active" href="#">Общая информация</a></span>
+        <span><a href="/tech_services/">TO</a></span>
+        <span><a href="/reclamations/">Рекламации</a></span>
+    </div>
+{% if user.role == 'MG' %}
+<span><a href="create">+ Добавить</a></span>
+{% endif %}
+<!-- machines -->
         {% if machines %}
-            <table border="width">
-                <tr>
-                    <td>Заводской номер</td>
-                    <td>Модель техники</td>
-                    <td>Заводской номер двигателя</td>
-                    <td>Модель двигателя</td>
-                    <td>Модель трансмиссии</td>
-                    <td>Заводской номер трансмиссии</td>
-                    <td>Модель ведущего моста</td>
-                    <td>Заводской ведущего моста</td>
-                    <td>Модель управляемого моста</td>
-                    <td>Заводской номер управляемого моста</td>
-                    <td>Договор поставки</td>
-                    <td>Дата отгрузки с завода</td>
-                    <td>Комплектация (доп.опции)</td>
-                    <td>Сервисная компания</td>
-                </tr>
-                {% for machine in machines %}
-                <tr>
-                    <td>{{ machine.equipment_number }}</td>
-                    <td>{{ machine.equipment_model }}</td>
-                    <td>{{ machine.engine_model }}</td>
-                    <td>{{ machine.engine_number }}</td>
-                    <td>{{ machine.transmission_model }}</td>
-                    <td>{{ machine.transmission_number }}</td>
-                    <td>{{ machine.driving_axle_model }}</td>
-                    <td>{{ machine.driving_axle_number }}</td>
-                    <td>{{ machine.control_axle_model }}</td>
-                    <td>{{ machine.control_axle_number }}</td>
-                    <td>{{ machine.shipment_contract }}</td>
-                    <td>{{ machine.shipment_out_date }}</td>
-                    <td>{{ machine.options }}</td>
-                    <td>{{ machine.service_company }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Заводской номер</td>
+                        <td>Модель техники</td>
+                        <td>Заводской номер двигателя</td>
+                        <td>Модель двигателя</td>
+                        <td>Модель трансмиссии</td>
+                        <td>Заводской номер трансмиссии</td>
+                        <td>Модель ведущего моста</td>
+                        <td>Заводской ведущего моста</td>
+                        <td>Модель управляемого моста</td>
+                        <td>Заводской номер управляемого моста</td>
+                        <td>Договор поставки</td>
+                        <td>Дата отгрузки с завода</td>
+                        <td>Грузополучатель</td>
+                        <td>Адрес поставки</td>
+                        <td>Комплектация (доп.опции)</td>
+                        <td>Клиент</td>
+                        <td>Сервисная компания</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    
+                    {% for machine in machines %}
+                    <tr>
+                        {% if user.role == 'CL' and machine.client != user %}
+                        <!-- continue -->
+                        {% elif user.role == 'SR' and machine.service_company.profile != user %}
+                        <!-- continue -->
+                        {% else %}
+                            <td><a href="{{ machine.pk }}">{{ machine.equipment_number }}</a></td>
+                            <td>{{ machine.equipment_model }}</td>
+                            <td>{{ machine.engine_model }}</td>
+                            <td>{{ machine.engine_number }}</td>
+                            <td>{{ machine.transmission_model }}</td>
+                            <td>{{ machine.transmission_number }}</td>
+                            <td>{{ machine.driving_axle_model }}</td>
+                            <td>{{ machine.driving_axle_number }}</td>
+                            <td>{{ machine.control_axle_model }}</td>
+                            <td>{{ machine.control_axle_number }}</td>
+                            <td>{{ machine.shipment_contract }}</td>
+                            <td>{{ machine.shipment_out_date|date:"d.m.Y" }}</td>
+                            <td>{{ machine.consignee }}</td>
+                            <td>{{ machine.shipment_adress }}</td>
+                            <td>{{ machine.options }}</td>
+                            <td>{{ machine.client }}</td>
+                            <td>{{ machine.service_company }}</td>
+                        {% endif %}
+                        {% if user.role == 'MG' %}
+                        <td><a href="{{ machine.pk }}/update">✏️</a><a href="{{ machine.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
         {% endif %}
+<!-- machines -->   
     {% else %}
-        {{ 'Главная' }}
+    <div>
+        <form action="" method="get">
+            {{ filterset.form.non_field_errors }}
+            {{ filterset.form.name__icontains.errors }}
+            <span class="filter">Заводской номер {{ filterset.form.equipment_number }}</span>
+            <button class="filter" type="submit">Найти</button>
+        </form>
+    </div>
+<!-- machines -->
+        {% if machines %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Заводской номер</td>
+                        <td>Модель техники</td>
+                        <td>Заводской номер двигателя</td>
+                        <td>Модель двигателя</td>
+                        <td>Модель трансмиссии</td>
+                        <td>Заводской номер трансмиссии</td>
+                        <td>Модель ведущего моста</td>
+                        <td>Заводской ведущего моста</td>
+                        <td>Модель управляемого моста</td>
+                        <td>Заводской номер управляемого моста</td>
+                    </tr>
+                    {% for machine in machines %}
+                    <tr>
+                        <td>{{ machine.equipment_number }}</td>
+                        <td>{{ machine.equipment_model }}</td>
+                        <td>{{ machine.engine_model }}</td>
+                        <td>{{ machine.engine_number }}</td>
+                        <td>{{ machine.transmission_model }}</td>
+                        <td>{{ machine.transmission_number }}</td>
+                        <td>{{ machine.driving_axle_model }}</td>
+                        <td>{{ machine.driving_axle_number }}</td>
+                        <td>{{ machine.control_axle_model }}</td>
+                        <td>{{ machine.control_axle_number }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
     {% endif %}
+
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
 {% endblock body %}
 
-<div class="col-lg-12">
-    <div>
-        <ul class="pagination pagination-lg">
-            {% if page_obj.has_previous %}
-            <li><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></li>
-            {% else %}
-            <li class="disabled"><span>&laquo;</span></li>
-            {% endif %}
-            {% for p in paginator %}
-            {% if p.number == page_obj.number %}
-            <li class="active"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></li>
-            {% else %}
-            <li><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></li>
-            {% endif %}
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li>
-            {% else %}
-            <li class="disabled"><span>»</span></li>
-            {% endif %}
-        </ul>
-    </div>
-</div>

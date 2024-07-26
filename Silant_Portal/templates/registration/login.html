@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Вход в аккаунт
+{% endblock title %}
+
+{% block header %}
+Вход в аккаунт
+{% endblock header %}
+
+{% block body %}
+<div>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        Имя пользователя {{ form.username }}
+        Пароль {{ form.password }}
+        <button type="submit">Войти</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+{% endblock body %}

@@ -1,10 +1,14 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from django_lifecycle import LifecycleModel, hook, AFTER_CREATE, AFTER_UPDATE
 
 # Create your models here.
-#TODO Придумать как реализовать модель пользователя с разделением прав
 
 
 class Profile(AbstractUser):
@@ -18,6 +22,31 @@ class Profile(AbstractUser):
     ]
     role = models.CharField(max_length=2, choices=ROLES, default=client)
     bio = models.TextField(null=True)
+
+    # @hook(AFTER_CREATE)
+    # def add_group(self):
+    #     if self.role == 'CL':
+    #         group = Group.objects.get(name='Clients')
+    #         Profile.objects.get(pk=self.pk).groups.add(group)
+    #     elif self.role == 'SR':
+    #         group = Group.objects.get(name='Service companies')
+    #         group.user_set.add(Profile.objects.get(pk=self.pk))
+    #     elif self.role == 'MG':
+    #         group = Group.objects.get(name='Managers')
+    #         group.user_set.add(Profile.objects.get(pk=self.pk))
+
+
+@receiver(post_save, sender=Profile)
+def add_group(sender, instance, created, **kwargs):
+    if instance.role == 'CL':
+        group = Group.objects.get(name='Clients')
+        Profile.objects.get(pk=instance.pk).groups.add(group)
+    elif instance.role == 'SR':
+        group = Group.objects.get(name='Service companies')
+        Profile.objects.get(pk=instance.pk).groups.add(group)
+    elif instance.role == 'MG':
+        group = Group.objects.get(name='Managers')
+        Profile.objects.get(pk=instance.pk).groups.add(group)
 
 
 #Машина
@@ -40,6 +69,9 @@ class Machine(models.Model):
     client = models.ForeignKey(Profile, on_delete=models.CASCADE)
     service_company = models.ForeignKey("ServiceCompany", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'Модель {self.equipment_model} №{self.equipment_number}'
+
 
 #ТО
 class TechService(models.Model):
@@ -51,8 +83,11 @@ class TechService(models.Model):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     service_company = models.ForeignKey('ServiceCompany', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"ТО {self.machine} / {self.service_date}"
 
-class Reclamation(models.Model):
+
+class Reclamation(LifecycleModel):
     workoff_date = models.DateField()
     mileage = models.IntegerField()
     workoff_node = models.CharField(max_length=256)
@@ -60,13 +95,17 @@ class Reclamation(models.Model):
     repair_method = models.CharField(max_length=256)
     used_recovery_kit = models.CharField(max_length=256)
     repair_date = models.DateField(max_length=256)
-    dead_time = models.IntegerField()
+    dead_time = models.IntegerField(null=True)
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     service_company = models.ForeignKey('ServiceCompany', on_delete=models.CASCADE)
 
-    # TODO написать метод, который будет считать время по формуле recovery_date - workoff_date. Проверить его работу
-    def count_dead_time(self):
-        self.dead_time = self.repair_date - self.workoff_date
+    def __str__(self):
+        return f"{self.machine}/{self.workoff_date}/{self.workoff_node}"
+
+    @hook(AFTER_CREATE)
+    def recalculate_create(self):
+        self.dead_time = (self.repair_date - self.workoff_date).days
+        self.save()
 
 
 #Справочники
@@ -106,7 +145,7 @@ class DrivingAxleModel(models.Model):
         return self.title
 
 
-#Модель ведущего моста
+#Модель управляемого моста
 class ControlAxleModel(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
