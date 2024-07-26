@@ -9,7 +9,7 @@
 
 {% block body %}
 <!-- reclamations -->
-{% if user.role == 'CL' and reclamation_detail.client != user %}
+{% if user.role == 'CL' and reclamation_detail.machine.client != user %}
 <div>У вас нет доступа для просмотра данной страницы</div>
 {% elif user.role == 'SR' and reclamation_detail.service_company.profile != user %}
 <div>У вас нет доступа для просмотра данной страницы</div>
@@ -41,10 +41,10 @@
                         <td>{{ reclamation_detail.used_recovery_kit }}</td>
                         <td>{{ reclamation_detail.repair_date|date:"d.m.Y" }}</td>
                         <td>{{ reclamation_detail.dead_time }} дней</td>
-                        <td>{{ reclamation_detail.machine }}</td>
+                        <td><a href="/home/{{ reclamation_detail.machine.pk }}">{{ reclamation_detail.machine }}</a></td>
                         <td>{{ reclamation_detail.service_company }}</td>
                         {% if user.role == 'MG' %}
-                        <td><a href="{{ reclamation.pk }}/update">✏️</a><a href="{{ reclamation.pk }}/delete">❌</a></td>
+                        <td><a href="{{ reclamation_detail.pk }}/update">✏️</a><a href="{{ reclamation_detail.pk }}/delete">❌</a></td>
                         {% endif %}
                     </tr>
                 </table>

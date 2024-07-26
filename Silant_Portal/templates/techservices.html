@@ -56,7 +56,7 @@
                         <td>{{ tech_service.mileage }}</td>
                         <td>{{ tech_service.order_number }}</td>
                         <td>{{ tech_service.order_date|date:"d.m.Y" }}</td>
-                        <td>{{ tech_service.machine }}</td>
+                        <td><a href="/home/{{tech_service.machine.pk}}">{{ tech_service.machine }}</a></td>
                         <td>{{ tech_service.service_company }}</td>
                         {% if user.role == 'MG' %}
                         <td><a href="{{ tech_service.pk }}/update">✏️</a><a href="{{ tech_service.pk }}/delete">❌</a></td>

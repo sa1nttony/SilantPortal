@@ -49,7 +49,7 @@
                         {% endif %}
                     </tr>
                     {% for reclamation in reclamations %}
-                    {% if user.role == 'CL' and reclamation.client != user %}
+                    {% if user.role == 'CL' and reclamation.machine.client != user %}
                         <!-- continue -->
                     {% elif user.role == 'SR' and reclamation.service_company.profile != user %}
                         <!-- continue -->
@@ -63,7 +63,7 @@
                         <td>{{ reclamation.used_recovery_kit }}</td>
                         <td>{{ reclamation.repair_date|date:"d.m.Y" }}</td>
                         <td>{{ reclamation.dead_time }} дней</td>
-                        <td>{{ reclamation.machine }}</td>
+                        <td><a href="/home/{{ reclamation.machine.pk }}">{{ reclamation.machine }}</a></td>
                         <td>{{ reclamation.service_company }}</td>
                         {% if user.role == 'MG' %}
                         <td><a href="{{ reclamation.pk }}/update">✏️</a><a href="{{ reclamation.pk }}/delete">❌</a></td>

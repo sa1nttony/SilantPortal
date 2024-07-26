@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from .models import Machine, TechService, Reclamation, Profile
-from .filters import MachineFilter, TechServiceFilter, ReclamationFilter, ProfileFilter
+from .filters import MachineFilter, TechServiceFilter, ReclamationFilter, ProfileFilter, EquipmentModelFilter
 from .forms import *
 
 # Create your views here.
@@ -173,6 +173,7 @@ class ReclamationView(LoginRequiredMixin, ListView):
 
 
 class ReclamationDetail(DetailView):
+    raise_exception = True
     model = Reclamation
     context_object_name = 'reclamation_detail'
     template_name = 'reclamation_detail.html'
@@ -180,7 +181,50 @@ class ReclamationDetail(DetailView):
 
 
 class ReclamationCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Reclamation
     form_class = ReclamationForm
     template_name = 'reclamation_create.html'
     success_url = reverse_lazy('reclamations')
+
+
+class ReclamationUpdate(LoginRequiredMixin, UpdateView):
+    raise_exception = True
+    model = Reclamation
+    form_class = ReclamationForm
+    template_name = 'reclamation_update.html'
+    success_url = reverse_lazy('reclamations')
+
+
+class ReclamationDelete(LoginRequiredMixin, DeleteView):
+    raise_exception = True
+    model = Reclamation
+    template_name = 'reclamation_delete.html'
+    success_url = reverse_lazy('reclamations')
+
+
+#Справочники------------------
+#Модель техники
+class EquipmentModelView(ListView):
+    model = EquipmentModel
+    ordering = 'title'
+    template_name = 'equipment_models.html'
+    context_object_name = 'equipment_models'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = EquipmentModelFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['filterset'] = self.filterset
+        return context
+
+
+class EquipmentModelDetail(DetailView):
+    model = EquipmentModel
+    context_object_name = 'equipment_model_detail'
+    template_name = 'equipment_model_detail.html'
+    queryset = EquipmentModel.objects.all()
