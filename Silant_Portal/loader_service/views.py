@@ -228,3 +228,10 @@ class EquipmentModelDetail(DetailView):
     context_object_name = 'equipment_model_detail'
     template_name = 'equipment_model_detail.html'
     queryset = EquipmentModel.objects.all()
+
+
+class EquipmentModelCrate(CreateView):
+    model = EquipmentModel
+    template_name = 'equipment_model_create.html'
+    form_class = EquipmentModelForm
+    success_url = reverse_lazy('equipment_models')
