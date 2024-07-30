@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Изменение модели техники
+{% endblock title %}
+
+{% block body %}
+{% if user.role != 'MG' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form method="post">
+            {% csrf_token %}
+            <div>Название{{ form.title }}</div>
+            <div>Описание{{ form.description }}</div>
+            <button type="submit">Сохранить</button>
+        </form>
+</div>
+{% endif %}
+{% endblock body %}
+

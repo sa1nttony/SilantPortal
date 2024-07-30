@@ -1,0 +1,72 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+Модели трансмиссии
+{% endblock title %}
+
+{% block body %}
+<div>
+    <form action="" method="get">
+        {{ filterset.form.non_field_errors }}
+        {{ filterset.form.name__icontains.errors }}
+        <span class="filter">Название {{ filterset.form.title }}</span>
+        <span class="filter">Описание {{ filterset.form.description }}</span>
+        <button class="filter" type="submit">Найти</button>
+    </form>
+</div>
+{% if user.role == 'MG' %}
+<span><a href="transmission_models/create">+ Добавить</a></span>
+{% endif %}
+<!-- transmisson_models -->
+        {% if transmission_models %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Название</td>
+                        <td>Описание</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    {% for transmission_model in transmission_models %}
+                    <tr>
+                        <td><a href="transmission_models/{{ transmission_model.pk }}">{{ transmission_model.title }}</a></td>
+                        <td>{{ transmission_model.description }}</td>
+                        {% if user.role == 'MG' %}
+                        <td><a href="transmission_models/{{ transmission_model.pk }}/update">✏️</a><a href="transmission_models/{{ transmission_model.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+<!-- machines -->   
+
+
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}
+

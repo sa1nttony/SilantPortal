@@ -1,7 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import Profile, Machine, TechService, Reclamation, EquipmentModel, EngineModel, TransmissionModel, DrivingAxleModel, ControlAxleModel, ServiceType, ServiceCompany
+from .models import (
+    Profile,
+    Machine,
+    TechService,
+    Reclamation,
+    EquipmentModel,
+    EngineModel,
+    TransmissionModel,
+    DrivingAxleModel,
+    ControlAxleModel,
+    ServiceType,
+    ServiceCompany,
+    WorkoffNode,
+    RepairMethod
+)
 
 
 class AddUserForm(UserCreationForm):
@@ -124,3 +138,16 @@ class ServiceCompanyForm(forms.ModelForm):
     class Meta:
         model = ServiceCompany
         fields = ['title', 'description', 'profile']
+
+
+class RepairMethodForm(forms.ModelForm):
+    class Meta:
+        model = RepairMethod
+        fields = ['title', 'description']
+
+
+class WorkoffNodeForm(forms.ModelForm):
+    class Meta:
+        model = WorkoffNode
+        fields = ['title', 'description']
+

@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}{{ service_type_detail }}{% endblock title %}
+
+{% block body %}
+<div class="table">
+    <table border="1">
+        <tr>
+            <td>Название</td>
+            <td>Описание</td>
+            {% if user.role == 'MG' %}
+            <td>Редактирование</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>{{ service_type_detail.title }}</td>
+            <td>{{ service_type_detail.description }}</td>
+            {% if user.role == 'MG' %}
+            <td><a href="{{ service_type_detail.pk }}/update">✏️</a><a href="{{ service_type_detail.pk }}/delete">❌</a></td>
+            {% endif %}
+        </tr>
+    </table>
+    </div>   
+{% endblock body %}

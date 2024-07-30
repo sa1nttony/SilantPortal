@@ -10,16 +10,18 @@
 {% if user.role != 'MG' %}
 <div>У вас нет доступа для просмотра данной страницы</div>
 {% else %}
+<div>
     <form method="post">
         {% csrf_token %}
-            <span>Имя пользователя {{ form.username }}</span>
-            <span>Эл.Почта {{ form.email }}</span>
-            <span>Пароль {{ form.password1 }}</span>
-            <span>Повторите пароль {{ form.password2 }}</span>
-            <span>Роль {{ form.role }}</span>
+            <div>Имя пользователя {{ form.username }}</div>
+            <div>Эл.Почта {{ form.email }}</div>
+            <div>Пароль {{ form.password1 }}</div>
+            <div>Повторите пароль {{ form.password2 }}</div>
+            <div>Роль {{ form.role }}</div>
             <div> Описание {{ form.bio }}</div>
             <button type="submit">Создать</button>
         </form>
+</div>
 {% endif %}
 {% endblock body %}
 

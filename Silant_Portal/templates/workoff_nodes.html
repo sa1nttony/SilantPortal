@@ -1,0 +1,72 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+Узлы отказа
+{% endblock title %}
+
+{% block body %}
+<div>
+    <form action="" method="get">
+        {{ filterset.form.non_field_errors }}
+        {{ filterset.form.name__icontains.errors }}
+        <span class="filter">Название {{ filterset.form.title }}</span>
+        <span class="filter">Описание {{ filterset.form.description }}</span>
+        <button class="filter" type="submit">Найти</button>
+    </form>
+</div>
+{% if user.role == 'MG' %}
+<span><a href="workoff_nodes/create">+ Добавить</a></span>
+{% endif %}
+<!-- workoff_nodes -->
+        {% if workoff_nodes %}
+        <div>
+            <div class="table">
+                <table border="1">
+                    <tr>
+                        <td>Название</td>
+                        <td>Описание</td>
+                        {% if user.role == 'MG' %}
+                        <td>Редактирование</td>
+                        {% endif %}
+                    </tr>
+                    {% for workoff_node in workoff_nodes %}
+                    <tr>
+                        <td><a href="workoff_nodes/{{ workoff_node.pk }}">{{ workoff_node.title }}</a></td>
+                        <td>{{ workoff_node.description }}</td>
+                        {% if user.role == 'MG' %}
+                        <td><a href="workoff_nodes/{{ workoff_node.pk }}/update">✏️</a><a href="workoff_nodes/{{ workoff_node.pk }}/delete">❌</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+<!-- engine_model -->   
+
+
+<!-- pagination -->
+ {% if paginator.num_pages > 1 %}
+    {% if page_obj.has_previous %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.previous_page_number %}">&laquo;</a></span>
+    {% else %}
+    <span class="pagination">&laquo;</span>
+    {% endif %}
+    {% for p in paginator %}
+        {% if p.number == page_obj.number %}
+        <span class="pagination active">{{ p.number }}</span>
+        {% else %}
+        <span class="pagination"><a href="?{% url_replace page=p.number %}">{{ p.number }}</a></span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <span class="pagination"><a href="?{% url_replace page=page_obj.next_page_number %}">»</a></li></span>
+    {% else %}
+    <span class="pagination">»</span>
+    {% endif %}
+{% endif %}    
+{% endblock body %}
+

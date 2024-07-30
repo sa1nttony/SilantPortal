@@ -10,13 +10,17 @@
     {% if user.role == "CL" %}
         <div>У вас нет доступа для просмотра данной страницы</div>
     {% else %}
-        <span><a href="profiles">Пользователи</a></span>
-        <span><a href="equipment_models">Модель техники</a></span>
-        <span><a href="#">Модель двигателя</a></span>
-        <span><a href="#">Модель трансмиссии</a></span>
-        <span><a href="#">Модель ведущего моста</a></span>
-        <span><a href="#">Модель управляемого моста</a></span>
-        <span><a href="#">Вид ТО</a></span>
-        <span><a href="#">Сервисная компания</a></span>
+
+        <div><a href="profiles">Пользователи</a></div>
+        <div><a href="equipment_models">Модель техники</a></div>
+        <div><a href="engine_models">Модель двигателя</a></div>
+        <div><a href="transmission_models">Модель трансмиссии</a></div>
+        <div><a href="driving_axle_models">Модель ведущего моста</a></div>
+        <div><a href="control_axle_models">Модель управляемого моста</a></div>
+        <div><a href="service_types">Вид ТО</a></div>
+        <div><a href="workoff_nodes">Узел отказа</a></div>
+        <div><a href="repair_methods">Метод восстановления</a></div>
+        <div><a href="service_companies">Сервисная компания</a></div>
+
     {% endif %}
 {% endblock body %}

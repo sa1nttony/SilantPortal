@@ -14,8 +14,8 @@
             <tr>
                 <td>Заводской номер</td>
                 <td>Модель техники</td>
-                <td>Заводской номер двигателя</td>
                 <td>Модель двигателя</td>
+                <td>Заводской номер двигателя</td>
                 <td>Модель трансмиссии</td>
                 <td>Заводской номер трансмиссии</td>
                 <td>Модель ведущего моста</td>
@@ -24,26 +24,33 @@
                 <td>Заводской номер управляемого моста</td>
                 <td>Договор поставки</td>
                 <td>Дата отгрузки с завода</td>
+                <td>Грузополучатель</td>
+                <td>Адрес поставки</td>
                 <td>Комплектация (доп.опции)</td>
+                <td>Клиент</td>
                 <td>Сервисная компания</td>
                 {% if user.role == 'MG' %}
                 <td>Редактирование</td>
                 {% endif %}
             </tr>
             <tr>
-                <td>{{ machine_detail.equipment_number }}</td>
-                <td>{{ machine_detail.equipment_model }}</td>
-                <td>{{ machine_detail.engine_model }}</td>
+                
+                <td><a href="{{ machine_detail.pk }}">{{ machine_detail.equipment_number }}</a></td>
+                <td><a href="/administration/equipment_models/{{ machine_detail.equipment_model.pk }}">{{ machine_detail.equipment_model }}</a></td>
+                <td><a href="/administration/engine_models/{{ machine_detail.engine_model.pk }}">{{ machine_detail.engine_model }}</a></td>
                 <td>{{ machine_detail.engine_number }}</td>
-                <td>{{ machine_detail.transmission_model }}</td>
+                <td><a href="/administration/transmission_models/{{ machine_detail.transmission_model.pk }}">{{ machine_detail.transmission_model }}</a></td>
                 <td>{{ machine_detail.transmission_number }}</td>
-                <td>{{ machine_detail.driving_axle_model }}</td>
+                <td><a href="/administration/driving_axle_models/{{ machine_detail.driving_axle_model.pk }}">{{ machine_detail.driving_axle_model }}</a></td>
                 <td>{{ machine_detail.driving_axle_number }}</td>
-                <td>{{ machine_detail.control_axle_model }}</td>
+                <td><a href="/administration/control_axle_models/{{ machine_detail.control_axle_model.pk }}">{{ machine_detail.control_axle_model }}</a></td>
                 <td>{{ machine_detail.control_axle_number }}</td>
                 <td>{{ machine_detail.shipment_contract }}</td>
                 <td>{{ machine_detail.shipment_out_date|date:"d.m.Y" }}</td>
+                <td>{{ machine_detail.consignee }}</td>
+                <td>{{ machine_detail.shipment_adress }}</td>
                 <td>{{ machine_detail.options }}</td>
+                <td>{{ machine_detail.client }}</td>
                 <td>{{ machine_detail.service_company }}</td>
                 {% if user.role == 'MG' %}
                 <td><a href="{{ machine_detail.pk }}/update">✏️</a><a href="{{ machine_detail.pk }}/delete">❌</a></td>

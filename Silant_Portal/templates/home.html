@@ -37,8 +37,8 @@
                     <tr>
                         <td>Заводской номер</td>
                         <td>Модель техники</td>
-                        <td>Заводской номер двигателя</td>
                         <td>Модель двигателя</td>
+                        <td>Заводской номер двигателя</td>
                         <td>Модель трансмиссии</td>
                         <td>Заводской номер трансмиссии</td>
                         <td>Модель ведущего моста</td>
@@ -65,14 +65,14 @@
                         <!-- continue -->
                         {% else %}
                             <td><a href="{{ machine.pk }}">{{ machine.equipment_number }}</a></td>
-                            <td>{{ machine.equipment_model }}</td>
-                            <td>{{ machine.engine_model }}</td>
+                            <td><a href="/administration/equipment_models/{{ machine.equipment_model.pk }}">{{ machine.equipment_model }}</a></td>
+                            <td><a href="/administration/engine_models/{{ machine.engine_model.pk }}">{{ machine.engine_model }}</a></td>
                             <td>{{ machine.engine_number }}</td>
-                            <td>{{ machine.transmission_model }}</td>
+                            <td><a href="/administration/transmission_models/{{ machine.transmission_model.pk }}">{{ machine.transmission_model }}</a></td>
                             <td>{{ machine.transmission_number }}</td>
-                            <td>{{ machine.driving_axle_model }}</td>
+                            <td><a href="/administration/driving_axle_models/{{ machine.driving_axle_model.pk }}">{{ machine.driving_axle_model }}</a></td>
                             <td>{{ machine.driving_axle_number }}</td>
-                            <td>{{ machine.control_axle_model }}</td>
+                            <td><a href="/administration/control_axle_models/{{ machine.control_axle_model.pk }}">{{ machine.control_axle_model }}</a></td>
                             <td>{{ machine.control_axle_number }}</td>
                             <td>{{ machine.shipment_contract }}</td>
                             <td>{{ machine.shipment_out_date|date:"d.m.Y" }}</td>

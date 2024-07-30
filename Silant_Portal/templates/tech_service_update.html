@@ -7,7 +7,7 @@
 {% endblock title %}
 
 {% block body %}
-{% if user.role == 'CL' %}
+{% if user.role == 'CL' and object.machine.client != user %}
 <div>У вас нет доступа для просмотра данной страницы</div>
 {% elif user.role == "SR" and object.service_company.profile != user %}
 <div>У вас нет доступа для просмотра данной страницы</div>
@@ -25,5 +25,6 @@
            <button type="submit">Сохранить</button>
         </form>
 </div>
+{% endif %}
 {% endblock body %}
 

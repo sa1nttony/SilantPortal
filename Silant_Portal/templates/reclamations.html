@@ -25,7 +25,7 @@
         <span><a class="navigator-active" href="#">Рекламации</a></span>
     </div>
 
-{% if user.role == 'MG' %}
+{% if user.role != 'CL' %}
 <span><a href="create">+ Добавить</a></span>
 {% endif %}
 <!-- reclamations -->
@@ -57,9 +57,9 @@
                     <tr>
                         <td><a href="{{ reclamation.pk }}">{{ reclamation.workoff_date|date:"d.m.Y" }}</a></td>
                         <td>{{ reclamation.mileage }}</td>
-                        <td>{{ reclamation.workoff_node }}</td>
+                        <td><a href="/administration/workoff_nodes/{{ reclamation.workoff_node.pk }}">{{ reclamation.workoff_node }}</a></td>
                         <td>{{ reclamation.workoff_descriprion }}</td>
-                        <td>{{ reclamation.repair_method }}</td>
+                        <td><a href="/administration/repair_methods/{{ reclamation.repair_method.pk }}">{{ reclamation.repair_method }}</a></td>
                         <td>{{ reclamation.used_recovery_kit }}</td>
                         <td>{{ reclamation.repair_date|date:"d.m.Y" }}</td>
                         <td>{{ reclamation.dead_time }} дней</td>

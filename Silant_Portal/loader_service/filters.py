@@ -1,7 +1,21 @@
 import django_filters
 from django_filters import FilterSet, ChoiceFilter
 
-from .models import Machine, Reclamation, TechService, Profile, EquipmentModel
+from .models import (
+    Machine,
+    Reclamation,
+    TechService,
+    Profile,
+    EquipmentModel,
+    EngineModel,
+    TransmissionModel,
+    DrivingAxleModel,
+    ControlAxleModel,
+    ServiceType,
+    ServiceCompany,
+    WorkoffNode,
+    RepairMethod
+)
 
 
 class ProfileFilter(FilterSet):
@@ -38,13 +52,11 @@ class TechServiceFilter(FilterSet):
 
 
 class ReclamationFilter(FilterSet):
-    repair_method = django_filters.CharFilter(lookup_expr='icontains')
-    workoff_node = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
         model = Reclamation
         fields = {
-            'workoff_node': ['contains'],
-            'repair_method': ['contains'],
+            'workoff_node': ['exact'],
+            'repair_method': ['exact'],
             'service_company': ['exact'],
         }
 
@@ -54,6 +66,86 @@ class EquipmentModelFilter(FilterSet):
     description = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
         model = EquipmentModel
+        fields = {
+            'title', 'description'
+        }
+
+
+class EngineModelFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = EngineModel
+        fields = {
+            'title', 'description'
+        }
+
+
+class TransmissionModelFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = TransmissionModel
+        fields = {
+            'title', 'description'
+        }
+
+
+class DrivingAxleModelFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = DrivingAxleModel
+        fields = {
+            'title', 'description'
+        }
+
+
+class ControlAxleModelFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = ControlAxleModel
+        fields = {
+            'title', 'description'
+        }
+
+
+class ServiceTypeFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = ServiceType
+        fields = {
+            'title', 'description'
+        }
+
+
+class ServiceCompanyFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = ServiceCompany
+        fields = {
+            'title', 'description', 'profile'
+        }
+
+
+class WorkoffNodeFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = WorkoffNode
+        fields = {
+            'title', 'description'
+        }
+
+
+class RepairMethodFilter(FilterSet):
+    title = django_filters.CharFilter(lookup_expr='icontains')
+    description = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = RepairMethod
         fields = {
             'title', 'description'
         }

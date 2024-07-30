@@ -24,9 +24,7 @@
         <span><a class="navigator-active" href="#">TO</a></span>
         <span><a href="/reclamations/">Рекламации</a></span>
     </div>
-    {% if user.role == 'MG' %}
     <span><a href="create">+ Добавить</a></span>
-    {% endif %}
 <!-- tech_services -->
         {% if tech_services %}
         <div>
@@ -51,7 +49,7 @@
                         <!-- continue -->
                     {% else %}
                     <tr>
-                        <td>{{ tech_service.service_type }}</td>
+                        <td><a href="/administration/service_types/{{ tech_service.service_type.pk }}">{{ tech_service.service_type }}</a></td>
                         <td><a href="{{ tech_service.pk }}">{{ tech_service.service_date|date:"d.m.Y H:i" }}</a></td>
                         <td>{{ tech_service.mileage }}</td>
                         <td>{{ tech_service.order_number }}</td>

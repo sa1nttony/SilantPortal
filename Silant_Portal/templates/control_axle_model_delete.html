@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+
+{% block title %}
+Удаление модели управляемого моста
+{% endblock title %}
+
+{% block body %}
+{% if user.role != 'MG' %}
+<div>У вас нет доступа для просмотра данной страницы</div>
+{% else %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        Вы действительно хотите удалить Модель управляемого моста<strong> {{ object }}</strong>?
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+{% endif %}
+{% endblock body %}
+
+
+

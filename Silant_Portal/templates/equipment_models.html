@@ -4,7 +4,7 @@
 {% load custom_tags %}
 
 {% block title %}
-Главная
+Модели техники
 {% endblock title %}
 
 {% block body %}
@@ -18,7 +18,7 @@
     </form>
 </div>
 {% if user.role == 'MG' %}
-<span><a href="create">+ Добавить</a></span>
+<span><a href="equipment_models/create">+ Добавить</a></span>
 {% endif %}
 <!-- equipment_models -->
         {% if equipment_models %}
@@ -34,10 +34,10 @@
                     </tr>
                     {% for equipment_model in equipment_models %}
                     <tr>
-                        <td><a href="{{ equipment_model.pk }}">{{ equipment_model.title }}</a></td>
+                        <td><a href="equipment_models/{{ equipment_model.pk }}">{{ equipment_model.title }}</a></td>
                         <td>{{ equipment_model.description }}</td>
                         {% if user.role == 'MG' %}
-                        <td><a href="{{ equipment_model.pk }}/update">✏️</a><a href="{{ equipment_model.pk }}/delete">❌</a></td>
+                        <td><a href="equipment_models/{{ equipment_model.pk }}/update">✏️</a><a href="equipment_models/{{ equipment_model.pk }}/delete">❌</a></td>
                         {% endif %}
                     </tr>
                     {% endfor %}

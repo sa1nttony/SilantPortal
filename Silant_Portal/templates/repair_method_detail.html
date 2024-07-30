@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}{{ repair_method_detail }}{% endblock title %}
+
+{% block body %}
+<div class="table">
+    <table border="1">
+        <tr>
+            <td>Название</td>
+            <td>Описание</td>
+            {% if user.role == 'MG' %}
+            <td>Редактирование</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>{{ repair_method_detail.title }}</td>
+            <td>{{ repair_method_detail.description }}</td>
+            {% if user.role == 'MG' %}
+            <td><a href="{{ repair_method_detail.pk }}/update">✏️</a><a href="{{ repair_method_detail.pk }}/delete">❌</a></td>
+            {% endif %}
+        </tr>
+    </table>
+    </div>   
+{% endblock body %}

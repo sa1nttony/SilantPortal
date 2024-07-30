@@ -19,19 +19,19 @@
                 <td>Дата заказ-наряда</td>
                 <td>Машина</td>
                 <td>Сервисная компания</td>
-                {% if user.role == 'MG' %}
+                {% if user.role == 'MG' or tech_service_detail.machine.client == user %}
                 <td>Редактирование</td>
                 {% endif %}
             </tr>
             <tr>
-                <td>{{ tech_service_detail.service_type }}</td>
+                <td><a href="/administration/service_types/{{ tech_service_detail.service_type.pk }}">{{ tech_service_detail.service_type }}</a></td>
                 <td>{{ tech_service_detail.service_date|date:"d.m.Y H:i" }}</td>
                 <td>{{ tech_service_detail.mileage }}</td>
                 <td>{{ tech_service_detail.order_number }}</td>
                 <td>{{ tech_service_detail.order_date|date:"d.m.Y" }}</td>
                 <td><a href="/home/{{ tech_service_detail.machine.pk }}">{{ tech_service_detail.machine }}</a></td>
                 <td>{{ tech_service_detail.service_company }}</td>
-                {% if user.role == 'MG' %}
+                {% if user.role == 'MG' or tech_service_detail.machine.client == user %}
                 <td><a href="{{ tech_service_detail.pk }}/update">✏️</a><a href="{{ tech_service_detail.pk }}/delete">❌</a></td>
                 {% endif %}
             </tr>

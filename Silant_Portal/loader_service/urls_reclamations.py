@@ -8,5 +8,5 @@ urlpatterns = [
     path('create', ReclamationCreate.as_view(), name='reclamations_create'),
     path('<int:pk>', ReclamationDetail.as_view(), name='reclamations_detail'),
     path('<int:pk>/update', ReclamationUpdate.as_view(), name='reclamations_update'),
-    path('<int:pk>/delete/', ReclamationUpdate.as_view(), name='reclamations_delete'),
+    path('<int:pk>/delete/', ReclamationDelete.as_view(), name='reclamations_delete'),
 ]

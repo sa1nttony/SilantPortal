@@ -90,9 +90,9 @@ class TechService(models.Model):
 class Reclamation(LifecycleModel):
     workoff_date = models.DateField()
     mileage = models.IntegerField()
-    workoff_node = models.CharField(max_length=256)
+    workoff_node = models.ForeignKey('WorkoffNode', on_delete=models.CASCADE)
     workoff_descriprion = models.TextField()
-    repair_method = models.CharField(max_length=256)
+    repair_method = models.ForeignKey('RepairMethod', on_delete=models.CASCADE)
     used_recovery_kit = models.CharField(max_length=256)
     repair_date = models.DateField(max_length=256)
     dead_time = models.IntegerField(null=True, blank=True)
@@ -168,6 +168,24 @@ class ServiceCompany(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
+#Узел отказа
+class WorkoffNode(models.Model):
+    title = models.CharField(max_length=256)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
+#Способ восстановления
+class RepairMethod(models.Model):
+    title = models.CharField(max_length=256)
+    description = models.TextField()
 
     def __str__(self):
         return self.title
