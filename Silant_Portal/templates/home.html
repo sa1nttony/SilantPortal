@@ -102,6 +102,7 @@
         </form>
     </div>
 <!-- machines -->
+{% if "equipment_number" in request.GET and request.GET.equipment_number != '' %}
         {% if machines %}
         <div>
             <div class="table">
@@ -134,6 +135,11 @@
                     {% endfor %}
                 </table>
             </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <div>
+            Введите заводской номер техники, чтобы увидеть ее характеристики
         </div>
         {% endif %}
     {% endif %}
